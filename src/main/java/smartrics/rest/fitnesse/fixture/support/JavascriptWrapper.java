@@ -119,6 +119,7 @@ public class JavascriptWrapper {
 	private Object evaluateExpression(Context context, ScriptableObject scope,
 			String expression) {
 		try {
+			context.setOptimizationLevel(-1);
 			Object result = context.evaluateString(scope, expression, null, 1,
 					null);
 			return result;

@@ -71,7 +71,9 @@ public class XPathBodyTypeAdapter extends BodyTypeAdapter {
 			try {
 				boolean b = eval(expr, actual.toString());
 				if (!b) {
-					addError("not found: '" + expr + "'");
+					if( expr.indexOf("json:")<0){
+						addError("not found: '" + expr + "'");
+					}
 				}
 			} catch (Exception e) {
 				throw new IllegalArgumentException("Cannot evaluate '" + expr

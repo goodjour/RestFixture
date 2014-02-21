@@ -21,6 +21,7 @@
 package smartrics.rest.fitnesse.fixture.support;
 
 import java.util.List;
+import org.skyscreamer.jsonassert.*;
 
 /**
  * Type adapted for cells containing JSON content.
@@ -44,7 +45,28 @@ public class JSONBodyTypeAdapter extends XPathBodyTypeAdapter {
         if (!forceJsEvaluation && Tools.isValidXPath(getContext(), expr) && !wrapper.looksLikeAJsExpression(expr)) {
             throw new IllegalArgumentException("XPath expectations in JSON content are not supported anymore. Please use JavaScript expressions.");
         }
+	if(expr.indexOf("json:")==0){
+	
+	 try {
+	      
+	JSONCompareResult result = JSONCompare.compareJSON(expr.replace("json:",""), json, JSONCompareMode.LENIENT);
+        if (result.failed()) {
+	 addError(result.getMessage());
+       		return false;
+        }
+
+		//JSONAssert.assertEquals(expr.replace("json:",""), json, false);
+      		return true;
+    	  } 
+	  catch (org.json.JSONException e) {
+		addError(e.getMessage());
+      		return false;
+    	 }
+
+	}
         Object exprResult = wrapper.evaluateExpression(json, expr);
+	 
+
         if (exprResult == null) {
             return false;
         }
@@ -77,7 +99,9 @@ public class JSONBodyTypeAdapter extends XPathBodyTypeAdapter {
         if (expected instanceof String) {
             result = eval(expected.toString(), actual.toString());
             if (!result) {
-                addError("not found: '" + expected.toString() + "'");
+		if( getErrors().size()==0){
+                	addError("not equal: '" + expected.toString() + "'");
+		}
             }
         }
         return result;

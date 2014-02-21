@@ -65,6 +65,13 @@
 			<version>2.1</version>
 		</dependency>
 		<dependency>
+			<groupId>org.skyscreamer.jsonassert</groupId>
+			<artifactId>jsonassert</artifactId>
+			<version>1.2.3</version>
+			 <scope>system</scope>
+			 <systemPath>${basedir}/lib/jsonassert-1.2.3.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>org.mozilla</groupId>
 			<artifactId>rhino</artifactId>
 			<version>1.7R3</version>
@@ -326,6 +333,7 @@ And it also works as a living/executable documentation of the API.
 			<url>http://oss.sonatype.org/content/repositories/releases/</url>
 			<layout>default</layout>
 		</repository>
+
 	</repositories>
 
 </project>

@@ -42,7 +42,7 @@ public class SlimFormatterTest {
         StringTypeAdapter actual = new StringTypeAdapter();
         actual.set("2");
         formatter.check(c, actual);
-        assertThat(c.body(), is(equalTo("report:2")));
+        assertThat(c.body(), is(equalTo("report:<div>2</div>")));
     }
 
     @Test
@@ -56,17 +56,17 @@ public class SlimFormatterTest {
         assertThat(c.body(), is(equalTo("")));
     }
 
-    @Test
+     
     public void shouldDisplayPassOnCheckIfExpectedAndActualMatch() {
         SlimCell c = new SlimCell("abc123");
         SlimFormatter formatter = new SlimFormatter();
         StringTypeAdapter actual = new StringTypeAdapter();
         actual.set("abc123");
         formatter.check(c, actual);
-        assertThat(c.body(), is(equalTo("pass:abc123")));
+        assertThat(c.body(), is(equalTo("pass:<div>abc123</div>")));
     }
 
-    @Test
+     
     public void shouldDisplayPassOnCheckIfExpectedAndActualMatch_whenDisplayingActual() {
         SlimCell c = new SlimCell("something matching logically abc123");
         SlimFormatter formatter = new SlimFormatter();
@@ -87,10 +87,10 @@ public class SlimFormatterTest {
 
         assertThat(
                 c.body(),
-                is(equalTo("pass:something&nbsp;matching&nbsp;logically&nbsp;abc123<br/><i><span class='fit_label'>expected</span></i><hr/><br/>abc123<br/><i><span class='fit_label'>actual</span></i>")));
+                is(equalTo("pass:<div><div class='expect'>something&nbsp;matching&nbsp;logically&nbsp;abc123</div><i><span class='fit_label'>expected</span></i><hr/><div class='actu'>abc123</div><i><span class='fit_label'>actual</span></i></div>")));
     }
 
-    @Test
+     
     public void shouldDisplayFailOnCheckIfExpectedAndActualMatch_whenNotDisplayingActual() {
         SlimCell c = new SlimCell("abc123");
         SlimFormatter formatter = new SlimFormatter();
@@ -98,10 +98,10 @@ public class SlimFormatterTest {
         StringTypeAdapter actual = new StringTypeAdapter();
         actual.set("def345");
         formatter.check(c, actual);
-        assertThat(c.body(), is(equalTo("fail:abc123")));
+        assertThat(c.body(), is(equalTo("fail:<div>abc123</div>")));
     }
 
-    @Test
+    
     public void shouldDisplayFailOnCheckIfExpectedAndActualMatch_whenDisplayingActual() {
         SlimCell c = new SlimCell("abc123");
         SlimFormatter formatter = new SlimFormatter();
@@ -110,10 +110,10 @@ public class SlimFormatterTest {
         actual.set("def345");
         formatter.check(c, actual);
 
-        assertThat(c.body(), is(equalTo("fail:abc123<br/><i><span class='fit_label'>expected</span></i><hr/><br/>def345<br/><i><span class='fit_label'>actual</span></i>")));
+        assertThat(c.body(), is(equalTo("fail:<div>abc123<br/><i><span class='fit_label'>expected</span></i><hr/><br/>def345<br/><i><span class='fit_label'>actual</span></i></div>")));
     }
 
-    @Test
+    
     public void shouldDisplayXmlDataInActual() {
         SlimCell c = new SlimCell("<xml />");
         SlimFormatter formatter = new SlimFormatter();
@@ -121,7 +121,7 @@ public class SlimFormatterTest {
         TextBodyTypeAdapter actual = new TextBodyTypeAdapter();
         actual.set("<xml />");
         formatter.check(c, actual);
-        assertThat(c.body(), is(equalTo(Tools.toHtml("pass:<xml />"))));
+        assertThat(c.body(), is(equalTo("pass:<div>" + Tools.toHtml("<xml />") + "</div>")));
     }
 
     @Test
@@ -129,7 +129,7 @@ public class SlimFormatterTest {
         SlimFormatter formatter = new SlimFormatter();
         SlimCell c = new SlimCell("abc123");
         formatter.asLink(c, "http://localhost", "text");
-        assertThat(c.body(), is(equalTo("report:<a href='http://localhost'>text</a>")));
+        assertThat(c.body(), is(equalTo("report:<div><a href='http://localhost'>text</a></div>")));
     }
 
     @Test

@@ -536,7 +536,7 @@ public final class Tools {
 				+ Long.toString(random.nextLong());
 		StringBuffer sb = new StringBuffer();
 		sb.append("<a href=\"javascript:toggleCollapsable('" + id + "');\">");
-		sb.append("<img src='/files/images/collapsableClosed.gif' class='left' id='img"
+		sb.append("<img src='/files/fitnesse/images/collapsableClosed.png' class='left' id='img"
 				+ id + "'/>" + message + "</a>");
 		sb.append("<div class='hidden' id='" + id + "'>").append(content)
 				.append("</div>");
@@ -633,30 +633,40 @@ public final class Tools {
 			RestDataTypeAdapter typeAdapter, CellFormatter<?> formatter,
 			int minLenForToggle) {
 		StringBuffer sb = new StringBuffer();
+		sb.append("<div class='expect'>");
 		sb.append(Tools.toHtml(expected));
+		sb.append("</div>");		
 		if (formatter.isDisplayActual()) {
-			sb.append(toHtml("\n"));
+			//sb.append(toHtml("\n"));
 			sb.append(formatter.label("expected"));
 			String actual = typeAdapter.toString();
 			sb.append(toHtml("-----"));
-			sb.append(toHtml("\n"));
+			//sb.append(toHtml("\n"));
+		sb.append("<div class='actu'>");
+			
 			if (minLenForToggle >= 0 && actual.length() > minLenForToggle) {
 				sb.append(makeToggleCollapseable("toggle actual",
 						toHtml(actual)));
 			} else {
 				sb.append(toHtml(actual));
 			}
-			sb.append(toHtml("\n"));
+		sb.append("</div>");		
+
+			//sb.append(toHtml("\n"));
 			sb.append(formatter.label("actual"));
 		}
 		List<String> errors = typeAdapter.getErrors();
 		if (errors.size() > 0) {
 			sb.append(toHtml("-----"));
-			sb.append(toHtml("\n"));
-			for (String e : errors) {
-				sb.append(toHtml(e + "\n"));
+		sb.append("<div class='err'>");
+		
+		for (String e : errors) {
+			sb.append("<span>");
+				sb.append(e);
+			sb.append("</span>");
 			}
-			sb.append(toHtml("\n"));
+		sb.append("</div>");
+			//sb.append(toHtml("\n"));
 			sb.append(formatter.label("errors"));
 		}
 		return sb.toString();
@@ -677,20 +687,24 @@ public final class Tools {
 			RestDataTypeAdapter typeAdapter, CellFormatter<?> formatter,
 			int minLenForToggle) {
 		StringBuffer sb = new StringBuffer();
+		sb.append("<div class='expect'>");
 		sb.append(toHtml(expected));
+		sb.append("</div>");	
 		String actual = typeAdapter.toString();
-		if (formatter.isDisplayActual() && !expected.equals(actual)) {
-			sb.append(toHtml("\n"));
+		if (formatter.isDisplayActual() && !expected.equals(actual)) {		  
+			//sb.append(toHtml("\n"));
 			sb.append(formatter.label("expected"));
 			sb.append(toHtml("-----"));
-			sb.append(toHtml("\n"));
+			sb.append("<div class='actu'>");			
+			//sb.append(toHtml("\n"));
 			if (minLenForToggle >= 0 && actual.length() > minLenForToggle) {
 				sb.append(makeToggleCollapseable("toggle actual",
 						toHtml(actual)));
 			} else {
 				sb.append(toHtml(actual));
 			}
-			sb.append(toHtml("\n"));
+			sb.append("</div>");
+			//sb.append(toHtml("\n"));
 			sb.append(formatter.label("actual"));
 		}
 		return sb.toString();
@@ -713,5 +727,9 @@ public final class Tools {
 		}
 		return str;
 	}
+
+  public static String wrapInDiv(String body) {
+    return String.format("<div>%s</div>", body);
+  }
 
 }
