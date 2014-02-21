@@ -1,0 +1,38 @@
+version 3.0
+ * Migrated build system to Maven and published to Sonatype Nexus
+ * Fixed Issue#28 - Multiple variables not expanding in RestFixtureConfig
+ * Split RestFixtureExtensions from RestFixture to include all contributed extensions to RestFixture
+ * Split LiveDoc in its own project on github.
+ * Renamed RestFixture class to FitRestFixture for fit runner
+ * Removed support for FitNesse variable syntax: '$label' is not more interpreted as 'label'
+ * Added support for HEAD and OPTIONS verbs (requires RestClient > 2.1)
+ * Added new config option to state whether the resource uris are escaped or not (restfixture.resource.uris.are.escaped, false by default), (requires RestClient > 2.1) - Issue#30
+ 
+version 2.0
+ * response body now is handled according to the charset in the content-type header
+ * added support for absolute URI in resource cell for each HTTP verb
+ * reimplemented RestFixtureWithSeq in pure java, with no external dependencies on OS tools
+ * added support for setting custom content-type to adapter map
+ * added support for setting bespoke rendering of null value labels via config property 'restfixture.null.value.representation'
+ * added 'comment' command row so that it's possible to comment RestFixtures; example |comment| the value of 'replaceme' is %replaceme% |
+ * added the ability of specifying absolute URLs as values of the resource cell in a verb row
+ * bug fixes 
+ * improvement of metrics build and ci build
+
+version 2.0.beta.1
+ * added support for SLIM
+ * added support for expressions in JavaScript for JSON
+ * abandoned local variable store for FitNesse symbols
+ * added a toggle button to collapse on/off large content cells
+ * added metric build to gather some metrics of the RestFixture code
+
+version 1.1.1
+ * bug fix: setHeader now parses multi-line headers
+ * API change: added setHeaders (syntactic sugar for multi-line headers)
+ 
+ version 1.1
+ * added namespaces support on matcher queries
+
+ version 1.0
+ * first fully usable release
+
